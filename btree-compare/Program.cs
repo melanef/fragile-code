@@ -119,33 +119,25 @@ namespace fragile
 
         bool BTreesAreEquals(BTN a, BTN b)
         {
-            if (BTreeAsString(a) == BTreeAsString(b))
-            {
-                return true;
-            }
-            else
-            {
+            if (a.val != b.val) {
                 return false;
             }
-        }
-
-        string BTreeAsString(BTN a)
-        {
-            var result = a.val.ToString();
-
-            if (a.left != null)
-            {
-                result = result + "-L-" + BTreeAsString(a.left);
+            
+            if (
+                 (a.left != NULL && b.left == NULL)
+              || (a.left == NULL && b.left != NULL)
+              || (a.right != NULL && b.right == NULL)
+              || (a.right == NULL && b.right != NULL)
+            ) {
+                return false;
             }
-
-            if (a.right != null)
-            {
-                result = result + "-R-" + BTreeAsString(a.right);
+            
+            if (a.left == NULL && b.left == NULL && a.right == NULL && b.right == NULL) {
+                return true;
             }
-
-            return result;
+            
+            return BTreesAreEquals(a.left, b.left) && BTreesAreEquals(a.right, b.right); 
         }
-
     }   
 
 }
